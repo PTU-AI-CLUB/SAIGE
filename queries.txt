@@ -1,0 +1,13 @@
+Tell me about PTU
+Who is the HOD of the CSE Department of PTU?
+Are there any prerequisites for the Artificial Intelligence course?
+In case I have a doubt in Internet of Things which faculty should I contact?
+Where can I find Dr. S. Lakshmana Pandian?
+What are the labs present in the CSE Department?
+What are the guidelines for the internship?
+What are the requirements to get the Honours Degree?
+How are the Continuous Assessment marks calculated?
+List the mark range and grades in the semester exam in a tabular format
+Write a short email to the HOD of the CSE Department (mention his name and email id) for requesting to go for internship at X Company with referrence to the guidelines mentioned for internship
+List the reference books for the Artificial Intelligence course
+What are Open Elective Courses?

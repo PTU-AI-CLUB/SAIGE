@@ -14,3 +14,4 @@ pypdf2
 InstructorEmbedding
 python-dotenv
 faiss-cpu
+gradio

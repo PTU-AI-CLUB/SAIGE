@@ -1,19 +1,17 @@
-from langchain import PromptTemplate
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.prompts import PromptTemplate
+from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.llms import CTransformers
 from langchain.chains import RetrievalQA
 import chainlit as cl
 
-DB_FAISS_PATH = "./vectorstores/db_faiss"
+DB_FAISS_PATH = "vectorstores_xl/db_faiss"
 
 custom_prompt_template = """Use the following pieces of information to answer the user's question.
 If you don't know the answer, please just say that you don't know the answer, don't try to make up
-an answer.
-
+an answer. The questions will be related to Puducherry Technological University.
 Context: {context}
 Question: {question}
-
 Only return the helpful answer below and nothing else.
 Helpful answer: 
 """
@@ -29,7 +27,9 @@ def load_llm():
         model="llama-2-7b-chat.ggmlv3.q8_0.bin",
         model_type="llama",
         max_new_tokens = 512,
-        temperature=0.5
+        temperature=0.7,
+        repetition_penalty=1.15,
+        # last_n_tokens=20
     )
     return llm
 
@@ -43,8 +43,12 @@ def retrieval_qa_chain(llm, prompt, db):
 
 
 def qa_bot():
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
-                                       model_kwargs={"device":"cpu"})
+    # embeddings = HuggingFaceEmbeddings(model_name="thenlper/gte-large",
+    #                                    model_kwargs={"device":"cpu"})
+    embeddings = HuggingFaceInstructEmbeddings(
+        model_name="hkunlp/instructor-xl",
+        model_kwargs={"device" : "cpu"}
+    )
     db = FAISS.load_local(DB_FAISS_PATH, embeddings)
     llm = load_llm()
     qa_prompt = set_custom_prompt()
@@ -78,4 +82,4 @@ async def main(message):
     cb.answer_reached = True
     res = await chain.acall(message, callbacks=[cb])
     answer = res["result"]
-    await cl.Message(content=answer).send()
+    # await cl.Message(content=answer).send()
