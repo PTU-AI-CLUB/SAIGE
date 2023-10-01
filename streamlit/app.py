@@ -5,10 +5,6 @@ from langchain.llms import CTransformers, HuggingFaceHub
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from html_template import css, bot_template, user_template
-from dotenv import load_dotenv
-
-load_dotenv()
-
 
 def load_vectorstore():
     embeddings = HuggingFaceEmbeddings(
@@ -58,7 +54,8 @@ def load_chain():
 
     llm = HuggingFaceHub(
         repo_id="tiiuae/falcon-40b",
-        model_kwargs=model_kwargs
+        model_kwargs=model_kwargs,
+        huggingfacehub_api_token="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"
     )
 
     qa_chain = RetrievalQA.from_chain_type(
