@@ -5,7 +5,7 @@ from langchain.llms import CTransformers
 from langchain.chains import RetrievalQA
 import chainlit as cl
 
-DB_FAISS_PATH = "vectorstores_xl/db_faiss"
+DB_FAISS_PATH = "../vectorstores_nlper/db_faiss"
 
 custom_prompt_template = """Use the following pieces of information to answer the user's question.
 If you don't know the answer, please just say that you don't know the answer, don't try to make up
@@ -24,7 +24,7 @@ def set_custom_prompt() -> PromptTemplate:
 
 def load_llm():
     llm = CTransformers(
-        model="llama-2-7b-chat.ggmlv3.q8_0.bin",
+        model="../llama-2-7b-chat.ggmlv3.q8_0.bin",
         model_type="llama",
         max_new_tokens = 512,
         temperature=0.7,

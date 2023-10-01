@@ -19,7 +19,7 @@ def get_qa():
         max_new_tokens=512,
         temperature=0.7
     )
-    custom_prompt = """Use only the following pieces of context to answer the question. If you don't know just say don't know.
+    custom_prompt = """Use only the following pieces of context to answer the question. If you don't know just say don't know. The questions are related to Puducherry Technological University.
     Context: {context}
     Question: {question}
     Helpful Answer: 
@@ -43,9 +43,9 @@ def get_qa():
     return qa_chain
 
 
-def llm_function(message, chat_history):
+async def llm_function(message, chat_history):
     qa_chain = get_qa()
-    response = qa_chain(
+    response = await qa_chain.acall(
         message
     )
     print(response.keys())
