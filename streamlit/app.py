@@ -1,10 +1,13 @@
 import streamlit as st
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-from langchain.llms import CTransformers
+from langchain.llms import CTransformers, HuggingFaceHub
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from html_template import css, bot_template, user_template
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def load_vectorstore():
@@ -33,15 +36,29 @@ def load_chain():
 
     db = load_vectorstore()
 
-    llm = CTransformers(
-        model="llama-2-7b-chat.ggmlv3.q8_0.bin",
-        model_type="llama",
-        temperature=0.7,
-        max_new_tokens=512,
-        repetition_penalty=1.13,
-        do_sample=True,
-        top_p=0.9,
-        top_k=50
+    # llm = CTransformers(
+    #     model="llama-2-7b-chat.ggmlv3.q8_0.bin",
+    #     model_type="llama",
+    #     temperature=0.7,
+    #     max_new_tokens=512,
+    #     repetition_penalty=1.13,
+    #     do_sample=True,
+    #     top_p=0.95,
+    #     top_k=50
+    # )
+
+    model_kwargs = {
+        "temperature" : 0.7,
+        "do_sample" : True,
+        "max_new_tokens" : 512,
+        "top_p" : 0.95,
+        "top_k" : 50,
+        "repetition_penalty" : 1.15
+    }
+
+    llm = HuggingFaceHub(
+        repo_id="tiiuae/falcon-40b",
+        model_kwargs=model_kwargs
     )
 
     qa_chain = RetrievalQA.from_chain_type(
