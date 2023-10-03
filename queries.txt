@@ -11,3 +11,7 @@ List the mark range and grades in the semester exam in a tabular format
 Write a short email to the HOD of the CSE Department (mention his name and email id) for requesting to go for internship at X Company with referrence to the guidelines mentioned for internship
 List the reference books for the Artificial Intelligence course
 What are Open Elective Courses?
+What are the units in MA201?
+List the honor courses offered by the CSE Department of PTU?
+Is Deep Learning an Honors course?
+In which semester is the course on Artificial Intelligence offered?

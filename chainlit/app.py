@@ -29,7 +29,7 @@ def load_llm():
         max_new_tokens = 512,
         temperature=0.7,
         repetition_penalty=1.15,
-        top_p=0.90,
+        top_p=0.95,
         top_k=50,
         do_sample=True
     )

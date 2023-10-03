@@ -4,7 +4,6 @@ from langchain.vectorstores import FAISS
 from langchain.llms import CTransformers, HuggingFaceHub
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
-from html_template import css, bot_template, user_template
 
 def load_vectorstore():
     embeddings = HuggingFaceEmbeddings(
@@ -32,31 +31,27 @@ def load_chain():
 
     db = load_vectorstore()
 
-    # llm = CTransformers(
-    #     model="llama-2-7b-chat.ggmlv3.q8_0.bin",
-    #     model_type="llama",
-    #     temperature=0.7,
-    #     max_new_tokens=512,
-    #     repetition_penalty=1.13,
-    #     do_sample=True,
-    #     top_p=0.95,
-    #     top_k=50
-    # )
+    llm = CTransformers(
+        model="llama-2-7b-chat.ggmlv3.q8_0.bin",
+        model_type="llama",
+        temperature=0.7,
+        max_new_tokens=512,
+        repetition_penalty=1.13,
+        do_sample=True,
+        top_p=0.95,
+        top_k=50
+    )
 
     model_kwargs = {
         "temperature" : 0.7,
         "do_sample" : True,
-        "max_new_tokens" : 512,
+        "max_new_tokens" : 256,
         "top_p" : 0.95,
         "top_k" : 50,
         "repetition_penalty" : 1.15
     }
 
-    llm = HuggingFaceHub(
-        repo_id="tiiuae/falcon-40b",
-        model_kwargs=model_kwargs,
-        huggingfacehub_api_token="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"
-    )
+
 
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -69,35 +64,36 @@ def load_chain():
     return qa_chain
 
 def handle_user_query(question):
-    st.session_state.chat_history.append(question)
-    st.spinner("Generating answer...")
-    answer = st.session_state.chain(question)
-    st.session_state.chat_history.append(answer["result"])
-    for i in range(len(st.session_state.chat_history)):
-        if i%2==0:
-            st.write(user_template.replace("{{MSG}}", st.session_state.chat_history[i]),
-                     unsafe_allow_html=True)
-        else:
-            st.write(bot_template.replace("{{MSG}}", st.session_state.chat_history[i]),
-                     unsafe_allow_html=True)
+    with st.spinner("Generating answer..."):
+        answer = st.session_state.chain(question)
+        st.session_state["messages"].append({
+            "role" : "user",
+            "content" : question
+        })
+        st.session_state["messages"].append({
+            "role" : "assistant",
+            "content" : answer["result"]
+        })
+        for i in range(len(st.session_state["messages"])):
+            with st.chat_message(name=st.session_state["messages"][i]["role"]):
+                st.markdown(body=st.session_state.messages[i]["content"])
             
 
 
 def main():
     st.set_page_config(page_title="PTUBot")
-    st.write(css, unsafe_allow_html=True)
     
     st.header("Welcome to PTUBot!")
     
 
     if "chain" not in st.session_state:
-        st.spinner(text="Loading models...")
-        st.session_state.chain = load_chain()
+        with st.spinner(text="Loading models..."):
+            st.session_state.chain = load_chain()
     
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-    user_question = st.text_input("Ask away...")
+    user_question = st.chat_input(placeholder="Ask away...")
     if user_question:
         handle_user_query(user_question)
 
