@@ -10,7 +10,7 @@ DB_NLPER_PATH = "./vectorstores_nlper/db_faiss"
 
 
 def create_vector_db():
-    loader = DirectoryLoader(path="data/",
+    loader = DirectoryLoader(path="data/pdfs/",
                              glob="*.pdf",
                              loader_cls=PyPDFLoader)
     documents = loader.load()
