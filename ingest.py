@@ -7,6 +7,7 @@ DATA_PATH = "./data/"
 DB_MINILM_PATH = "./vectorstores_minilm/db_faiss"
 DB_IXL_PATH = "./vectorstores_xl/db_faiss"
 DB_NLPER_PATH = "./vectorstores_nlper/db_faiss"
+DB_BAAI_PATH = "./vectorstores_baai/db_faiss"
 
 
 def create_vector_db():
@@ -18,11 +19,11 @@ def create_vector_db():
                                                    chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
     embeddings = HuggingFaceEmbeddings(
-        model_name="thenlper/gte-large",
+        model_name="BAAI/bge-large-en-v1.5",
         model_kwargs={"device" : "cpu"}
     )
     db = FAISS.from_documents(texts, embeddings)
-    db.save_local(DB_NLPER_PATH)
+    db.save_local(DB_BAAI_PATH)
 
 
 if __name__=="__main__":
