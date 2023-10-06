@@ -15,3 +15,5 @@ What are the units in MA201?
 List the honor courses offered by the CSE Department of PTU?
 Is Deep Learning an Honors course?
 In which semester is the course on Artificial Intelligence offered?
+Should a student complete SWAYAM NPTEL courses?
+What is the pattern for the Semester Examination question paper at PTU for theory courses?

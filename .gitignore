@@ -3,3 +3,4 @@ data
 .env
 llama-2-7b-chat.ggmlv3.q8_0.bin
 test.ipynb
+mistral-7b-instruct-v0.1.Q4_K_M.gguf
