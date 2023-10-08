@@ -15,3 +15,5 @@ InstructorEmbedding
 python-dotenv
 faiss-cpu
 gradio
+weaviate-client
+rank_bm25

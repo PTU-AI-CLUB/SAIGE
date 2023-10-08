@@ -3,58 +3,45 @@ from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbed
 from langchain.vectorstores import FAISS
 from langchain.llms import CTransformers
 from langchain.chains import RetrievalQA
+from config import *
 import chainlit as cl
-
-DB_FAISS_PATH = "vectorstores_baai/db_faiss"
-
-LLAMA_MODEL = "llama-2-7b-chat.ggmlv3.q8_0.bin"
-MISTRAL_MODEL = "mistral-7b-instruct-v0.1.Q4_K_M.gguf"
-
-custom_prompt_template = """Use the following pieces of information to answer the user's question.
-If you don't know the answer, please just say that you don't know the answer, don't try to make up
-an answer. The questions will be related to Puducherry Technological University.
-Context: {context}
-Question: {question}
-Only return the helpful answer below and nothing else.
-Helpful answer: 
-"""
 
 def set_custom_prompt() -> PromptTemplate:
 
-    prompt = PromptTemplate(template=custom_prompt_template,
+    prompt = PromptTemplate(template=PROMPT_TEMPLATE,
                             input_variables=["context", "question"])
     return prompt
 
 def load_llm():
     llm = CTransformers(
-        model=LLAMA_MODEL,
-        model_type="llama",
-        max_new_tokens = 512,
-        temperature=0.7,
-        repetition_penalty=1.15,
-        top_p=0.95,
-        top_k=50,
+        model=LLAMA_MODEL_CKPT,
+        model_type=MODEL_TYPE,
+        max_new_tokens = MAX_NEW_TOKENS,
+        temperature=TEMPERATURE,
+        repetition_penalty=REPETITION_PENALTY,
+        top_p=TOP_P,
+        top_k=TOP_K,
         do_sample=True
     )
     return llm
 
 def retrieval_qa_chain(llm, prompt, db):
     qa_chain = RetrievalQA.from_chain_type(llm=llm,
-                                           chain_type="stuff",
-                                           retriever=db.as_retriever(search_kwargs={"k":2}),
+                                           chain_type=CHAIN_TYPE,
+                                           retriever=db.as_retriever(search_kwargs=SEARCH_KWARGS),
                                            return_source_documents=True,
                                            chain_type_kwargs={"prompt":prompt})
     return qa_chain
 
 
 def qa_bot():
-    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-large-en-v1.5",
-                                       model_kwargs={"device":"cpu"})
+    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDER,
+                                       model_kwargs={"device":DEVICE})
     # embeddings = HuggingFaceInstructEmbeddings(
     #     model_name="hkunlp/instructor-xl",
     #     model_kwargs={"device" : "cpu"}
     # )
-    db = FAISS.load_local(DB_FAISS_PATH, embeddings)
+    db = FAISS.load_local(DB_PATH, embeddings)
     llm = load_llm()
     qa_prompt = set_custom_prompt()
     qa = retrieval_qa_chain(llm, qa_prompt, db)

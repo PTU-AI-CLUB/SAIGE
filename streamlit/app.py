@@ -1,62 +1,75 @@
 import streamlit as st
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
 from langchain.llms import CTransformers
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
+from config import *
+from langchain.document_loaders import DirectoryLoader, PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-def load_vectorstore():
+
+def load_retriever():
     embeddings = HuggingFaceEmbeddings(
-        model_name="thenlper/gte-large",
-        model_kwargs={"device" : "cpu"}
+        model_name=EMBEDDER,
+        model_kwargs={"device" : DEVICE}
     )
     db = FAISS.load_local(
-        folder_path="vectorstores_nlper/db_faiss",
+        folder_path=DB_PATH,
         embeddings=embeddings
     )
-    return db
+
+    # document_loader = DirectoryLoader(
+    #     path=DATA_DIR_PATH,
+    #     glob="*.pdf",
+    #     loader_cls=PyPDFLoader
+    # )
+    # docs = document_loader.load()
+    # text_splitter = RecursiveCharacterTextSplitter(
+    #     chunk_size = CHUNK_SIZE,
+    #     chunk_overlap = CHUNK_OVERLAP
+    # )
+
+    # text_chunks = text_splitter.split_documents(documents=docs)
+
+    faiss_retriever = db.as_retriever(searhc_kwargs=SEARCH_KWARGS)
+    # bm25_retriever = BM25Retriever.from_documents(documents=text_chunks)
+
+    # ensemble_retriever = EnsembleRetriever(retrievers=[faiss_retriever, bm25_retriever], weights=[0.5, 0.5])
+    # print("Loaded retriever...")
+    # return ensemble_retriever
+    return faiss_retriever
+
 
 def load_chain():
 
-    custom_prompt = """Use the following pieces of context to answer the question. The questions are related to Puducherry Technological University. If you don't know, say don't know
-    Context: {context}
-    Question: {question}
-    Return helpful answer.
-    Answer: 
-    """
     prompt = PromptTemplate(
-        template=custom_prompt,
-        input_variables=["context", "question"]
+        template=PROMPT_TEMPLATE,
+        input_variables=INP_VARS
     )
 
-    db = load_vectorstore()
-
-    llm = CTransformers(
-        model="llama-2-7b-chat.ggmlv3.q8_0.bin",
-        model_type="llama",
-        temperature=0.7,
-        max_new_tokens=512,
-        repetition_penalty=1.13,
-        do_sample=True,
-        top_p=0.95,
-        top_k=50
-    )
+    retriever = load_retriever()
 
     model_kwargs = {
-        "temperature" : 0.7,
+        "model" : MISTRAL_MODEL_CKPT,
+        "model_type" : MODEL_TYPE,
+        "temperature" : TEMPERATURE,
         "do_sample" : True,
-        "max_new_tokens" : 256,
-        "top_p" : 0.95,
-        "top_k" : 50,
-        "repetition_penalty" : 1.15
+        "max_new_tokens" : MAX_NEW_TOKENS,
+        "top_p" : TOP_P,
+        "top_k" : TOP_K,
+        "repetition_penalty" : REPETITION_PENALTY
     }
 
-
+    llm = CTransformers(
+        **model_kwargs
+    )
 
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
-        chain_type="stuff",
-        retriever=db.as_retriever(search_kwargs={"k" : 2}),
+        chain_type=CHAIN_TYPE,
+        retriever=retriever,
         return_source_documents=True,
         chain_type_kwargs={"prompt" : prompt}
     )
