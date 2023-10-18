@@ -58,7 +58,7 @@ async def start():
     chain = qa_bot()
     msg = cl.Message(content="Starting the bot....")
     await msg.send()
-    msg.content = "Hi, Welcome to the PTU Bot. Ask away..."
+    msg.content = "Hi, Welcome to the SAIGE. Ask away..."
     await msg.send()
     cl.user_session.set("chain", chain)
 

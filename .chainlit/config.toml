@@ -20,7 +20,7 @@ prompt_playground = true
 
 [UI]
 # Name of the app and chatbot.
-name = "PTUBot"
+name = "SAIGE"
 
 # Description of the app and chatbot. This is used for HTML tags.
 # description = ""
