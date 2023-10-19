@@ -1,7 +1,5 @@
 langchain
-streamlit
 chainlit
-auto-gptq==0.2.0
 transformers
 huggingface-hub
 accelerate
@@ -11,9 +9,6 @@ unstructured
 pypdf
 pdf2image
 pypdf2
-InstructorEmbedding
 python-dotenv
 faiss-cpu
-gradio
-weaviate-client
-rank_bm25
+flask

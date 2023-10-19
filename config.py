@@ -14,8 +14,8 @@ Helpful answer:
 INP_VARS = ['context', 'question']
 CHAIN_TYPE = "stuff"
 SEARCH_KWARGS = {'k': 2}
-MISTRAL_MODEL_CKPT = "mistral-7b-openorca.Q8_0.gguf"
-LLAMA_MODEL_CKPT = "llama-2-7b-chat.ggmlv3.q8_0.bin"
+# MISTRAL_MODEL_CKPT = "mistral-7b-openorca.Q8_0.gguf"
+MODEL_CKPT = "llama-2-7b-chat.ggmlv3.q8_0.bin"
 MODEL_TYPE = "llama"
 MAX_NEW_TOKENS = 512
 TEMPERATURE = 0.7
@@ -23,3 +23,4 @@ DB_PATH = "vectorstores/db_faiss"
 TOP_P = 0.95
 TOP_K = 50
 REPETITION_PENALTY=1.15
+DO_SAMPLE=True
