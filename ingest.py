@@ -4,10 +4,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 
 DATA_PATH = "./data/"
-DB_MINILM_PATH = "./vectorstores_minilm/db_faiss"
-DB_IXL_PATH = "./vectorstores_xl/db_faiss"
-DB_NLPER_PATH = "./vectorstores_nlper/db_faiss"
-DB_BAAI_PATH = "./vectorstores_baai/db_faiss"
+DB_PATH = "./vectorstores/db_faiss"
 
 
 def create_vector_db():
@@ -23,7 +20,7 @@ def create_vector_db():
         model_kwargs={"device" : "cpu"}
     )
     db = FAISS.from_documents(texts, embeddings)
-    db.save_local(DB_BAAI_PATH)
+    db.save_local(DB_PATH)
 
 
 if __name__=="__main__":

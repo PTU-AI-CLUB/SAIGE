@@ -2,10 +2,8 @@ venv
 data
 .env
 llama-2-7b-chat.ggmlv3.q8_0.bin
-test.ipynb
-mistral-7b-instruct-v0.1.Q4_K_M.gguf
 mistral-7b-openorca.Q8_0.gguf
-test.py
-weaviate_test.py
+test
 .chainlit
 chainlit.md
+__pycache__

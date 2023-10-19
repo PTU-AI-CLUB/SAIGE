@@ -1,5 +1,5 @@
 from langchain.prompts import PromptTemplate
-from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.llms import CTransformers
 from langchain.chains import RetrievalQA
@@ -37,10 +37,6 @@ def retrieval_qa_chain(llm, prompt, db):
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDER,
                                        model_kwargs={"device":DEVICE})
-    # embeddings = HuggingFaceInstructEmbeddings(
-    #     model_name="hkunlp/instructor-xl",
-    #     model_kwargs={"device" : "cpu"}
-    # )
     db = FAISS.load_local(DB_PATH, embeddings)
     llm = load_llm()
     qa_prompt = set_custom_prompt()
@@ -56,22 +52,20 @@ def final_result(query):
 @cl.on_chat_start
 async def start():
     chain = qa_bot()
-    msg = cl.Message(content="Starting the bot....")
+    msg = cl.Message(content="Starting the bot...")
     await msg.send()
-    msg.content = "Hi, Welcome to the SAIGE. Ask away..."
-    await msg.send()
+    msg.content = "Hi, Welcome to SAIGE. Ask away.."
+    await msg.update()
+
     cl.user_session.set("chain", chain)
 
-
 @cl.on_message
-async def main(message):
-
-    chain = cl.user_session.get("chain")
+async def main(message: cl.Message):
+    chain = cl.user_session.get("chain") 
     cb = cl.AsyncLangchainCallbackHandler(
-        stream_final_answer=True,
-        answer_prefix_tokens=["FINAL", "ANSWER"]
+        stream_final_answer=True, answer_prefix_tokens=["FINAL", "ANSWER"]
     )
     cb.answer_reached = True
-    res = await chain.acall(message, callbacks=[cb])
-    answer = res["result"]
-    # await cl.Message(content=answer).send()
+    res = await chain.acall(message.content, callbacks=[cb])
+    # answer = res["result"]
+    # sources = res["source_documents"]
