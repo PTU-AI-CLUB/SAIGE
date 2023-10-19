@@ -1,6 +1,6 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import DirectoryLoader, UnstructuredPDFLoader, PyPDFLoader, TextLoader
-from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
+from langchain.document_loaders import DirectoryLoader, PyPDFLoader
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 
 DATA_PATH = "./data/"
