@@ -75,45 +75,11 @@ class SAIGE:
 
 
 
-
-# def set_custom_prompt() -> PromptTemplate:
-
-#     prompt = PromptTemplate(template=PROMPT_TEMPLATE,
-#                             input_variables=["context", "question"])
-#     return prompt
-
-# def load_llm():
-#     llm = CTransformers(
-#         model=LLAMA_MODEL_CKPT,
-#         model_type=MODEL_TYPE,
-#         max_new_tokens = MAX_NEW_TOKENS,
-#         temperature=TEMPERATURE,
-#         repetition_penalty=REPETITION_PENALTY,
-#         top_p=TOP_P,
-#         top_k=TOP_K,
-#         do_sample=True
-#     )
-#     return llm
-
-# def retrieval_qa_chain(llm, prompt, db):
-#     qa_chain = RetrievalQA.from_chain_type(llm=llm,
-#                                            chain_type=CHAIN_TYPE,
-#                                            retriever=db.as_retriever(search_kwargs=SEARCH_KWARGS),
-#                                            return_source_documents=True,
-#                                            chain_type_kwargs={"prompt":prompt})
-#     return qa_chain
-
-
-# def qa_bot():
-#     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDER,
-#                                        model_kwargs={"device":DEVICE})
-#     db = FAISS.load_local(DB_PATH, embeddings)
-#     llm = load_llm()
-#     qa_prompt = set_custom_prompt()
-#     qa = retrieval_qa_chain(llm, qa_prompt, db)
-#     return qa
-
-# def final_result(query):
-#     qa_result = qa_bot()
-#     response = qa_result({"query" : query})
-#     return response
+if __name__ == "__main__":
+    saige = SAIGE()
+    while True:
+        query = input("query: ")
+        if query == 'q':
+            break
+        answer = saige.query(query=query)
+        print(f"answer: {answer}")
