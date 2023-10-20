@@ -14,7 +14,7 @@ The SAIGE aims to make information about our college easily accessible to studen
 We are actively working on training and fine-tuning the LLaMa-2-7b model to provide accurate and relevant responses. While the bot is not yet deployed for public use, we are making steady progress toward our goal.
 
 ## Project Members
-- [Sathya Krishnan TS](https://www.linkedin.com/in/sathya-krishnan-suresh-914763217/), [Shakthi S](https://www.linkedin.com/in/shakthi-s-a0b44a211/), [Dwaipayan De](https://www.linkedin.com/in/dwaipayan-de-8872bb292/) and (Seshan Saravanan](https://www.linkedin.com/in/seshansaravanan/)
+- [Sathya Krishnan TS](https://www.linkedin.com/in/sathya-krishnan-suresh-914763217/), [Shakthi S](https://www.linkedin.com/in/shakthi-s-a0b44a211/), [Dwaipayan De](https://www.linkedin.com/in/dwaipayan-de-8872bb292/) and [Seshan Saravanan](https://www.linkedin.com/in/seshansaravanan/)
 
 ## Demo
 
