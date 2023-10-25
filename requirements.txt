@@ -12,3 +12,5 @@ pypdf2
 python-dotenv
 faiss-cpu
 flask
+Flask-Cors
+langchainhub
