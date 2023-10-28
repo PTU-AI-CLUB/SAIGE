@@ -3,6 +3,8 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores.faiss import FAISS
 from langchain.llms.ctransformers import CTransformers
 from langchain.chains import RetrievalQA
+from langchain.schema.runnable import RunnablePassthrough
+from langchain.schema.output_parser import StrOutputParser
 from config import *
 import chainlit as cl
 
@@ -27,11 +29,8 @@ class SAIGE:
         self._setup_utils()
 
     def _prompt_util(self):
-        self.prompt = PromptTemplate(
-            template=self.prompt_template,
-            input_variables=self.input_variables
-        )
-    
+        self.prompt = PromptTemplate.from_template(template=PROMPT_TEMPLATE)
+
     def _llm_util(self):
         self.llm = CTransformers(
             model=self.model_ckpt,
@@ -44,7 +43,7 @@ class SAIGE:
             repetition_penalty=self.repetition_penalty
         )
     
-    def _qa_chain_util(self):
+    def _qa_chain_util(self) -> None:
         self.chain = RetrievalQA.from_chain_type(
             llm=self.llm,
             retriever=self.db.as_retriever(search_kwargs=self.search_kwargs),
@@ -52,7 +51,21 @@ class SAIGE:
             chain_type_kwargs={"prompt" : self.prompt},
             return_source_documents=True
         )
+        # self.chain = (
+        #     {"context" : self._retriever, "question" : RunnablePassthrough()}
+        #     | self.prompt
+        #     | self.llm
+        #     | StrOutputParser()
+        #     )
     
+
+    
+    def _retriever(self, query: str):
+        return self.db.as_retriever(
+            search_kwargs=SEARCH_KWARGS
+        ).invoke(query)
+
+
     def _setup_utils(self):
 
         self.embeddings = HuggingFaceEmbeddings(

@@ -3,12 +3,17 @@ CHUNK_SIZE = 500
 CHUNK_OVERLAP = 200
 EMBEDDER = "BAAI/bge-large-en-v1.5"
 DEVICE = "cpu"
-PROMPT_TEMPLATE = """Use the following pieces of information to answer the user's question.
-If you don't know the answer, please just say that you don't know the answer, don't try to make up
-an answer. The questions will be related to Puducherry Technological University. Keep the answers between 3 to 5 lines.
-Context: {context}
-Question: {question}
-Only return the helpful answer below and nothing else.
+# PROMPT_TEMPLATE = """Use the following pieces of information to answer the user's question.
+# If you don't know the answer, please just say that you don't know the answer, don't try to make up
+# an answer. The questions will be related to Puducherry Technological University. Keep the answers between 3 to 5 lines.
+# Context: {context}
+# Question: {question}
+# Only return the helpful answer below and nothing else.
+# Helpful answer: 
+# """
+PROMPT_TEMPLATE = """**[INST]** Answer the users question only based on the following context in 2 to 3 sentences.
+Question: {question} [/INST]
+Context: {context}.
 Helpful answer: 
 """
 INP_VARS = ['context', 'question']
