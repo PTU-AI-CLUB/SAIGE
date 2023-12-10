@@ -1,0 +1,123 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#chat-container {
+    width: 400px;
+    height: 600px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px #aaa;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+}
+
+#header {
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#logo {
+    width: 100px; /* Adjust as needed */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-family: 'Google Sans', sans-serif;
+    color: #333;
+    margin: 0;
+}
+
+/* ... remaining CSS content ... */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#chat-container {
+    width: 400px;
+    height: 600px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px #aaa;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+}
+
+#messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    border-bottom: 1px solid #eee;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#loading {
+    text-align: center;
+    padding: 5px;
+    font-style: italic;
+}
+
+.hidden {
+    display: none;
+}
+
+.input-area {
+    display: flex;
+    padding: 10px;
+}
+
+#message-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+#send-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+#send-button:hover {
+    background-color: #45a049;
+}
+
+.message {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.user-message {
+    background-color: #dcf8c6;
+    text-align: right;
+}
+
+.bot-message {
+    background-color: #e5e5ea;
+    text-align: left;
+}
