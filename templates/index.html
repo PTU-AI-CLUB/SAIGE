@@ -1,23 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Chatbot UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Access Warning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .warning-message {
+            display: inline-block;
+            border: 1px solid #ff0000;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #fff3f3;
+            color: #ff0000;
+        }
+        .warning-message h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .warning-message p {
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <div id="header">
-        <img src="photo1701760654.png" alt="SAIGE Logo" id="logo">
-        <h1>SAIGE</h1>
+    <div class="warning-message">
+        <h1>Direct API Access Detected</h1>
+        <p>You are trying to directly access an API endpoint. Please use the proper client application to interact with the API.</p>
     </div>
-    <div id="chat-container">
-        <div id="messages"></div>
-        <div id="loading" class="hidden">Typing...</div>
-        <div class="input-area">
-            <input type="text" id="message-input" placeholder="Type your message...">
-            <button id="send-button">Send</button>
-        </div>
-    </div>
-    <script src="script.js"></script>
 </body>
 </html>
+
